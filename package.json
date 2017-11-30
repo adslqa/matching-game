@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "axe-cli": "^1.0.3",
+    "commander": "^2.11.0",
+    "eslint": "^4.7.2",
+    "firebase-tools": "^3.9.2",
+    "webdriverio": "^4.8.0"
+  }
+}

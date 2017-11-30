@@ -1,0 +1,7 @@
+{
+  "name": "matching-game",
+  "short_name": "matching-game",
+  "description": "A simple matching game for friends on the web ",
+  "start_url": "/",
+  "display": "standalone"
+}
