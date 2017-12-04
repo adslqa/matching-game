@@ -13,14 +13,19 @@ A player's score will be determined based on how many matches he guessed correct
 **Owner** is the “big screen”/laptop/PC
 
 
-- **[Owner 0]** setup screen where the admin creates the game. They should see a button to click (such as “Connect”)
+- **[Owner 0]** Home Screen - The admin provides the code of his created game for the Owner to host  
+![Home](./mockups/owner/0_home.png?raw=true)
 - **[Owner 1]** QR code to sign on and/or hash code to sign on
   - **[Admin lobby]** – list of players and chat
-- **[Owner 2]** There is a countdown timer on the big screen, the list of players, and waiting for game to start or start game button
-- **[Owner 3]** pictures for playing the game + timer + players
-- **[Owner 4]** list of sentences and who said them and accompanying images
-- **[Owner 5]** On the big screen we see all the images chosen for each player
-- **[Owner 6]** Scores
+  ![Lobby](./mockups/owner/1_lobby.png?raw=true)
+- **[Owner 2]** There is a countdown timer on the big screen and the images for current round,   
+players who submitted their reference pop up on screen and fade out.
+![Selection](./mockups/owner/2_card_selection.png?raw=true)
+- **[Owner 3]** The images of current round and players status
+![Matching](./mockups/owner/3_matching_phase.png?raw=true)
+- **[Owner 4]** Scores
+![Scores](./mockups/owner/4_scores.png?raw=true)
+
 
 **Player** is the phone
 
