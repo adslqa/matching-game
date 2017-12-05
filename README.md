@@ -1,10 +1,18 @@
 # \<matching-game\>
 
-A simple matching game for friends on the web 
+A simple matching game for friends on the web
 
 ## Install the Polymer-CLI
 
 First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) installed. Then run `polymer serve` to serve your application locally.
+
+## Install dependencies
+
+```
+$ npm install
+```
+
+Make sure you have [bower](https://bower.io/) installed. Then run `bower install` to install bower dependencies.
 
 ## Viewing Your Application
 
