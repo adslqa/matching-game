@@ -1,9 +1,39 @@
 {
+  "name": "matching-game",
+  "version": "0.0.1",
+  "description": "A matching game progressive web app",
+  "main": "index.html",
+  "directories": {
+    "test": "test"
+  },
   "dependencies": {
     "axe-cli": "^1.0.3",
     "commander": "^2.11.0",
     "eslint": "^4.7.2",
     "firebase-tools": "^3.9.2",
     "webdriverio": "^4.8.0"
-  }
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "polymer serve",
+    "start:prod": "polymer build && polymer serve build/default",
+    "build": "polymer build",
+    "test": "polymer test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UdacityScholarsIsrael/matching-game.git"
+  },
+  "keywords": [
+    "matching",
+    "game",
+    "web",
+    "app",
+    "pwa"
+  ],
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/UdacityScholarsIsrael/matching-game/issues"
+  },
+  "homepage": "https://github.com/UdacityScholarsIsrael/matching-game#readme"
 }
