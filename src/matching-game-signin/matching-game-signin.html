@@ -2,7 +2,7 @@
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
 
-<dom-module id="matching-game-login">
+<dom-module id="matching-game-signin">
   <template>
     <style>
       :host {
@@ -25,14 +25,14 @@
       }
     </style>
 
-    <paper-button id="google" on-tap="dispatchLogin">Login with Google</paper-button>
-    <paper-button id="facebook" on-tap="dispatchLogin">Login with Facebook</paper-button>
-    <paper-button id="github" on-tap="dispatchLogin">Login with github</paper-button>
+    <paper-button id="google" on-tap="dispatchSignin">Login with Google</paper-button>
+    <paper-button id="facebook" on-tap="dispatchSignin">Login with Facebook</paper-button>
+    <paper-button id="github" on-tap="dispatchSignin">Login with github</paper-button>
 
   </template>
   <script>
-    class MatchingGameLogin extends Polymer.Element {
-      static get is() {return 'matching-game-login';}
+    class MatchingGameSignin extends Polymer.Element {
+      static get is() {return 'matching-game-signin';}
 
       static get properties() {
         return {
@@ -46,16 +46,15 @@
         };
       }
 
-      dispatchLogin(event) {
-        this.dispatchEvent(new CustomEvent('login-google', {
-          detail: {
-            provider: event.target.id,
-          },
+      dispatchSignin(event) {
+        const provider = event.target.id;
+        this.dispatchEvent(new CustomEvent('firebase-signin', {
+          detail: {provider},
           bubbles: true,
           composed: true,
         }));
       }
     }
-    customElements.define(MatchingGameLogin.is, MatchingGameLogin);
+    customElements.define(MatchingGameSignin.is, MatchingGameSignin);
   </script>
 </dom-module>
