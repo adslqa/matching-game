@@ -103,6 +103,20 @@
         this.$.toast.open();
       }
 
+      /**
+       * Logs in with specified provider
+       * @param  {Event}  event
+       */
+      async login(event) {
+        const {provider} = event.detail;
+        this.$.auth.provider = provider;
+        try {
+          const response = await this.$.auth.signInWithPopup();
+          this.page = response.user ? 'home' : 'login';
+        } catch (error) {
+          null; // handled by this.$.auth.onError
+        }
+      }
     }
 
     customElements.define(MatchingGameApp.is, MatchingGameApp);
