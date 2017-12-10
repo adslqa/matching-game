@@ -2,6 +2,8 @@
 <link rel="import" href="../../bower_components/lazy-imports/lazy-imports-mixin.html">
 
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../../bower_components/polymerfire/firebase-app.html">
 <link rel="import" href="../../bower_components/polymerfire/firebase-auth.html">
 <link rel="import" href="../../bower_components/polymerfire/firebase-document.html">
@@ -36,6 +38,10 @@
       <matching-game-home name="home"></matching-game-home>
     </iron-pages>
 
+    <paper-toast id="toast" opened="{{toastOpened}}" duration="Infinity">
+      <paper-button toggles active="{{toastOpened}}">Dismiss</paper-button>
+    </paper-toast>
+
   </template>
 
   <script>
@@ -61,6 +67,12 @@
             type: Object,
           },
 
+          /** If the toast dialog is open. */
+          toastOpened: {
+            type: Boolean,
+            value: false,
+          },
+
           /** The firebase user object. */
           user: {
             type: Object,
@@ -78,6 +90,17 @@
         const results = await this.importLazyGroup(page);
         results.loaded.forEach((loaded) => console.log(`${loaded} loaded`));
         results.failed.forEach((failed) => console.log(`${failed} failed`));
+      }
+
+      /**
+       * Toasts the error message to the user.
+       * @param  {Event} event
+       */
+      onError(event) {
+        // eslint-disable-next-line no-console
+        console.error(event.detail);
+        this.$.toast.text = event.detail.message;
+        this.$.toast.open();
       }
 
     }
