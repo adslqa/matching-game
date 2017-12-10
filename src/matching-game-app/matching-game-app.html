@@ -1,9 +1,14 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/lazy-imports/lazy-imports-mixin.html">
+
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../../bower_components/polymerfire/firebase-app.html">
 <link rel="import" href="../../bower_components/polymerfire/firebase-auth.html">
 <link rel="import" href="../../bower_components/polymerfire/firebase-document.html">
 
 <dom-module id="matching-game-app">
+  <link rel="lazy-import" href="../matching-game-login/matching-game-login.html" group="login">
+  <link rel="lazy-import" href="../matching-game-home/matching-game-home.html" group="home">
   <template>
     <style>
       :host {
@@ -26,21 +31,31 @@
         on-error="onError"
     ></firebase-auth>
 
+    <iron-pages id="pages" attr-for-selected="name" selected="[[page]]">
+      <matching-game-login name="login" on-login-google="login"></matching-game-login>
+      <matching-game-home name="home"></matching-game-home>
+    </iron-pages>
+
   </template>
 
   <script>
     /**
      * @customElement
      * @polymer
+     * @appliesMixin Polymer.LazyImportsMixin
      */
-    class MatchingGameApp extends Polymer.Element {
+    class MatchingGameApp extends Polymer.LazyImportsMixin(Polymer.Element) {
       static get is() {return 'matching-game-app';}
       static get properties() {
         return {
-          prop1: {
+
+          /** The current view. */
+          page: {
             type: String,
-            value: 'matching-game-app'
-          }
+            value: 'login',
+            observer: 'pageChanged',
+          },
+
           /** The firebase app object. */
           firebaseApp: {
             type: Object,
@@ -54,6 +69,17 @@
 
         };
       }
+
+      /**
+       * Lazy-loads views as needed.
+       * @param  {string}  page view name to lazy-load.
+       */
+      async pageChanged(page) {
+        const results = await this.importLazyGroup(page);
+        results.loaded.forEach((loaded) => console.log(`${loaded} loaded`));
+        results.failed.forEach((failed) => console.log(`${failed} failed`));
+      }
+
     }
 
     customElements.define(MatchingGameApp.is, MatchingGameApp);
