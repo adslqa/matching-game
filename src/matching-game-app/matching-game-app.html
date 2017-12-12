@@ -1,32 +1,124 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/lazy-imports/lazy-imports-mixin.html">
+
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-app.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-auth.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-document.html">
 
 <dom-module id="matching-game-app">
+  <link rel="lazy-import" href="../matching-game-signin/matching-game-signin.html" group="signin">
+  <link rel="lazy-import" href="../matching-game-home/matching-game-home.html" group="home">
   <template>
     <style>
       :host {
         display: block;
       }
     </style>
-    <h2>Hello [[prop1]]!</h2>
+
+    <firebase-app id="app"
+        app="{{firebaseApp}}"
+        auth-domain="matching-game-950a6.firebaseapp.com"
+        api-key="AIzaSyArKMFC9-CHMpSmAWPINfnRsIF2ne-JaEQ"
+        database-url="https://matching-game-950a6.firebaseio.com"
+        storage-bucket=""
+        messaging-sender-id: "867697252846"
+    ></firebase-app>
+
+    <firebase-auth id="auth"
+        user="{{user}}"
+        provider="google"
+        on-error="onError"
+    ></firebase-auth>
+
+    <iron-pages id="pages" attr-for-selected="name" selected="[[page]]">
+      <matching-game-signin name="signin" on-firebase-signin="signin"></matching-game-signin>
+      <matching-game-home name="home"></matching-game-home>
+    </iron-pages>
+
+    <paper-toast id="toast" opened="{{toastOpened}}" duration="Infinity">
+      <paper-button toggles active="{{toastOpened}}">Dismiss</paper-button>
+    </paper-toast>
+
   </template>
 
   <script>
     /**
      * @customElement
      * @polymer
+     * @appliesMixin Polymer.LazyImportsMixin
      */
-    class MatchingGameApp extends Polymer.Element {
-      static get is() { return 'matching-game-app'; }
+    class MatchingGameApp extends Polymer.LazyImportsMixin(Polymer.Element) {
+      static get is() {return 'matching-game-app';}
       static get properties() {
         return {
-          prop1: {
+
+          /** The current view. */
+          page: {
             type: String,
-            value: 'matching-game-app'
-          }
+            value: 'signin',
+            observer: 'pageChanged',
+          },
+
+          /** The firebase app object. */
+          firebaseApp: {
+            type: Object,
+          },
+
+          /** If the toast dialog is open. */
+          toastOpened: {
+            type: Boolean,
+            value: false,
+          },
+
+          /** The firebase user object. */
+          user: {
+            type: Object,
+            value: null,
+          },
+
         };
+      }
+
+      /**
+       * Lazy-loads views as needed.
+       * @param  {string}  page view name to lazy-load.
+       */
+      async pageChanged(page) {
+        const results = await this.importLazyGroup(page);
+        results.loaded.forEach((loaded) => console.log(`${loaded} loaded`));
+        results.failed.forEach((failed) => console.log(`${failed} failed`));
+      }
+
+      /**
+       * Toasts the error message to the user.
+       * @param  {Event} event
+       */
+      onError(event) {
+        // eslint-disable-next-line no-console
+        console.error(event.detail);
+        this.$.toast.text = event.detail.message;
+        this.$.toast.open();
+      }
+
+      /**
+       * Signs in with specified provider
+       * @param  {Event}  event
+       */
+      async signin(event) {
+        const {provider} = event.detail;
+        this.$.auth.provider = provider;
+        try {
+          const response = await this.$.auth.signInWithPopup();
+          this.page = response.user ? 'home' : 'signin';
+        } catch (error) {
+          null; // handled by this.$.auth.onError
+        }
       }
     }
 
-    window.customElements.define(MatchingGameApp.is, MatchingGameApp);
+    customElements.define(MatchingGameApp.is, MatchingGameApp);
   </script>
 </dom-module>

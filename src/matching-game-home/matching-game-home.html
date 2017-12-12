@@ -1,0 +1,24 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+
+<dom-module id="matching-game-home">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    I'm the Home View! 🏠
+  </template>
+  <script>
+    class MatchingGameHome extends Polymer.Element {
+      static get is() {return 'matching-game-home';}
+
+      static get properties() {
+        return {
+
+        };
+      }
+    }
+    customElements.define(MatchingGameHome.is, MatchingGameHome);
+  </script>
+</dom-module>

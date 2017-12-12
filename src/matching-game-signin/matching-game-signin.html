@@ -1,0 +1,60 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+
+<dom-module id="matching-game-signin">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      #google {
+        background-color: var(--google-red-500);
+        color: white;
+      }
+
+      #facebook {
+        background-color: var(--paper-blue-600);
+        color: white;
+      }
+
+      #github {
+        background-color: var(--paper-grey-900);
+        color: white;
+      }
+    </style>
+
+    <paper-button id="google" on-tap="dispatchSignin">Login with Google</paper-button>
+    <paper-button id="facebook" on-tap="dispatchSignin">Login with Facebook</paper-button>
+    <paper-button id="github" on-tap="dispatchSignin">Login with github</paper-button>
+
+  </template>
+  <script>
+    class MatchingGameSignin extends Polymer.Element {
+      static get is() {return 'matching-game-signin';}
+
+      static get properties() {
+        return {
+
+          /** The firebase user object. */
+          user: {
+            type: Object,
+            value: null,
+          },
+
+        };
+      }
+
+      dispatchSignin(event) {
+        const provider = event.target.id;
+        this.dispatchEvent(new CustomEvent('firebase-signin', {
+          detail: {provider},
+          bubbles: true,
+          composed: true,
+        }));
+      }
+    }
+    customElements.define(MatchingGameSignin.is, MatchingGameSignin);
+  </script>
+</dom-module>
