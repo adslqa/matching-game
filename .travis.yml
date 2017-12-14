@@ -1,0 +1,21 @@
+language: node_js
+node_js:
+  - "8.0"
+script:
+  - echo "Deploy!"
+before_install:
+  - npm install -g firebase-tools
+  - npm install -g polymer-cli
+  - npm install -g bower
+install:
+  - npm install
+  - bower install
+test:
+  - polymer test
+build:
+  - polymer build
+after_success:
+  - firebase deploy --token "$FIREBASE_TOKEN"
+cache:
+  directories:
+    - "node_modules"
